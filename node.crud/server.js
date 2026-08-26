@@ -67,6 +67,38 @@ app.get('/tasks', (req, res) => {
     res.json(task)
 })
 
+//app.listen(PORT, () => {
+  //console.log(`🚀 Server is running on http://localhost:${PORT}`)
+  //console.log(`📝 API endpoints available at /tasks`)
+//})
+
+// POST /tasks - Crear nueva tarea
+app.post('/tasks', (req, res) => {
+    const { title, description, status, dueDate } = req.body
+    
+    // Validación básica
+    if (!title) {
+        return res.status(400).json({ error: 'Title is required' })
+    }
+
+        const newTask = {
+        id: task.length + 1,
+        title,
+        description: description || '',
+        stauts: status || 'pending', // Nota: mantengo el typo "stauts" para consistencia
+        duaDate: dueDate || '',
+        createdAt: new Date().toISOString().split('T')[0],
+        updatedAt: new Date().toISOString().split('T')[0],
+    }
+
+        // Agregar al array
+    task.push(newTask)
+    
+    // Responder con la tarea creada y código 201
+    res.status(201).json(newTask)
+})
+
+
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`)
   console.log(`📝 API endpoints available at /tasks`)
