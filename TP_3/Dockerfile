@@ -1,15 +1,22 @@
-# Imagen base liviana con Node 20
-FROM node:20-alpine
+# Etapa 1: dependencias
+FROM node:20-alpine AS dependencies
 
 WORKDIR /app
 
-# Copiamos primero los manifest de dependencias para aprovechar la cache de Docker:
-# si solo cambia el codigo (no las dependencias), Docker no vuelve a correr npm install
 COPY package*.json ./
 
 RUN npm install --omit=dev
 
-# Copiamos el resto del codigo fuente
+
+# Etapa 2: ejecución
+FROM node:20-alpine AS runtime
+
+WORKDIR /app
+
+COPY --from=dependencies /app/node_modules ./node_modules
+
+COPY package*.json ./
+
 COPY . .
 
 EXPOSE 3001

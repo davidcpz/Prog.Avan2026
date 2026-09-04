@@ -24,15 +24,45 @@ app.use(express.json())
 // GET /tasks - Listar todas las tareas (con filtro opcional ?status=pending)
 app.get('/tasks', async (req, res) => {
     try {
-        const { status } = req.query
-        const result = status
-            ? await pool.query('SELECT * FROM tasks WHERE status = $1 ORDER BY id', [status])
-            : await pool.query('SELECT * FROM tasks ORDER BY id')
+        //const { status } = req.query
+        //agrege paginación opcional con limit y offset
+        const { status, limit, offset } = req.query
+//agrege estas lineas para parsear limit y offset a enteros, si no vienen se asigna null o 0 respectivamente
+        const limitValue = limit ? parseInt(limit) : null
+        const offsetValue = offset ? parseInt(offset) : 0
+
+       //const result = status
+            //? await pool.query('SELECT * FROM tasks WHERE status = $1 ORDER BY id', [status])
+            //: await pool.query('SELECT * FROM tasks ORDER BY id')
+    
+            //modifique la query para agregar limit y offset
+        let result
+
+        if (status && limitValue !== null) {
+            result = await pool.query(
+                'SELECT * FROM tasks WHERE status = $1 ORDER BY id LIMIT $2 OFFSET $3',
+                [status, limitValue, offsetValue]
+            )
+        } else if (status) {
+            result = await pool.query(
+                'SELECT * FROM tasks WHERE status = $1 ORDER BY id',
+                [status]
+            )
+        } else if (limitValue !== null) {
+            result = await pool.query(
+                'SELECT * FROM tasks ORDER BY id LIMIT $1 OFFSET $2',
+                [limitValue, offsetValue]
+            )
+        } else {
+            result = await pool.query(
+                'SELECT * FROM tasks ORDER BY id'
+            )
+        }
         res.json(result.rows)
-    } catch (err) {
+            } catch (err) {
         res.status(500).json({ error: err.message })
-    }
-})
+        }
+    })
 
 // GET /tasks/:id - Obtener una tarea por id
 app.get('/tasks/:id', async (req, res) => {
@@ -58,6 +88,12 @@ app.post('/tasks', async (req, res) => {
         if (!title) {
             return res.status(400).json({ error: 'Title is required' })
         }
+
+       if (status && !['pending', 'completed'].includes(status)) {
+            return res.status(400).json({ error: 'Invalid status' })
+        } 
+
+
 
         const result = await pool.query(
             `INSERT INTO tasks (title, description, status, due_date)
@@ -88,6 +124,10 @@ app.put('/tasks/:id', async (req, res) => {
     try {
         const { id } = req.params
         const { title, description, status, dueDate } = req.body
+
+        if (status && !['pending', 'completed'].includes(status)) {
+            return res.status(400).json({ error: 'Invalid status' })
+            }
 
         const result = await pool.query(
             `UPDATE tasks
