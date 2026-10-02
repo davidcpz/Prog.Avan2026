@@ -1,0 +1,200 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f8;
+  color: #222;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+main {
+  width: 90%;
+  max-width: 1150px;
+  margin: 40px auto;
+}
+
+h1 {
+  margin-bottom: 30px;
+  text-align: center;
+  color: #1f2937;
+  font-size: 2rem;
+}
+
+section {
+  margin-bottom: 30px;
+  padding: 25px;
+  background-color: #ffffff;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #1f2937;
+  font-size: 1.4rem;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  font-weight: 600;
+  color: #374151;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #222;
+}
+
+textarea {
+  height: 90px;
+  min-height: 90px;
+  resize: vertical;
+}
+
+.textarea-small {
+  height: 45px;
+  min-height: 45px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-submit {
+  grid-column: 1 / -1;
+  width: 60%;
+  justify-self: center;
+}
+
+.btn-cancel {
+  grid-column: 1 / -1;
+  width: 60%;
+  justify-self: center;
+  background-color: #64748b;
+}
+
+.btn-cancel:hover {
+  background-color: #475569;
+}
+
+article {
+  margin-bottom: 15px;
+  padding: 20px;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+  background-color: #f8fafc;
+}
+
+article:last-child {
+  margin-bottom: 0;
+}
+
+article h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #1f2937;
+}
+
+article p {
+  margin: 6px 0;
+}
+
+article button {
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
+.btn-edit {
+  background-color: #2563eb;
+}
+
+.btn-edit:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-complete {
+  background-color: #16a34a;
+}
+
+.btn-complete:hover {
+  background-color: #15803d;
+}
+
+.btn-delete {
+  background-color: #dc2626;
+}
+
+.btn-delete:hover {
+  background-color: #b91c1c;
+}
+
+button:disabled,
+button:disabled:hover {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+  main {
+    width: 95%;
+    margin: 20px auto;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  section {
+    padding: 18px;
+  }
+
+  article button {
+    width: 100%;
+    margin-right: 0;
+  }
+}
